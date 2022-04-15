@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 char* create_path(char* source, char* temp_path) {
     char* new_str;
@@ -20,11 +21,12 @@ char* create_path(char* source, char* temp_path) {
     return new_str;
 }
 
-void compare(char* source, char* destination, char* temp_path, char* dest_path) {
+void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse) {
 
     DIR *s_directory;
     struct dirent *s_dir;
     struct stat s_attr;
+
     s_directory = opendir(source);
 
     if(s_directory) {
@@ -39,14 +41,14 @@ void compare(char* source, char* destination, char* temp_path, char* dest_path) 
 
             if(S_ISREG(s_attr.st_mode)) {
                 // Regular file
-                file_handle(temp_path, dest_path);
+                file_handle(temp_path, dest_path, reverse);
                 // printf("F: %s \t\t<-->\t\t %s\n", temp_path, dest_path);
             } else {
                 // Directory
 
                 // printf("D: %s \t\t<-->\t\t %s\n", temp_path, dest_path);
-                create_dir(dest_path);
-                compare(temp_path, dest_path, temp_path, dest_path);
+                dir_handle(temp_path, dest_path, reverse);
+                compare(temp_path, dest_path, temp_path, dest_path, reverse);
             }
         }
     }

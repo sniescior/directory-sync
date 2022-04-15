@@ -3,6 +3,8 @@
 
 // Directory handler - duplicate / remove (if needed)
 
-int create_dir(char* source, char* path);
+void create_dir(char* path);
+void delete_dir(char* destination);
+void dir_handle(char* source, char* destination);
 
 #endif

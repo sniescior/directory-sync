@@ -12,6 +12,14 @@ void create_dir(char *path) {
 
 void delete_dir(char* path) {
     printf("Remove dir from %s\n", path);
+
+    int a;
+    unlink(path);
+    if(a = remove(path) == 0) {
+        printf("\t\t ^ directory deleted successfully (%d)\n", a);
+    } else {
+        printf("\t\t ^ there was a proble while deleting a directory (%d)\n", a);
+    }
 }
 
 void dir_handle(char* source, char* destination, bool reverse) {

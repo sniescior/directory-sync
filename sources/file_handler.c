@@ -29,6 +29,13 @@ void duplicate_file(char *source, char* destination) {
 
 void delete_file(char* path) {
     printf("Remove file from %s\n", path);
+    
+    int a;
+    if(a = remove(path) == 0) {
+        printf("\t\t ^ deleted successfully (%d)\n", a);
+    } else {
+        printf("\t\t ^ not removed (%d)\n", a);
+    }
 }
 
 void file_handle(char* source, char* destination, bool reverse) {

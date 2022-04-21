@@ -5,20 +5,57 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <fts.h>
+#include <errno.h>
 
 void create_dir(char *path) {
     mkdir(path, 0700);
 }
 
-void delete_dir(char* path) {
-    printf("Remove dir from %s\n", path);
+void delete_dir(char* dir) {
 
-    int a;
-    unlink(path);
-    if(a = remove(path) == 0) {
-        printf("\t\t ^ directory deleted successfully (%d)\n", a);
-    } else {
-        printf("\t\t ^ there was a proble while deleting a directory (%d)\n", a);
+    int ret = 0;
+    FTS *ftsp = NULL;
+    FTSENT *curr;
+
+    char *files[] = { (char *) dir, NULL };
+
+    ftsp = fts_open(files, FTS_NOCHDIR | FTS_PHYSICAL | FTS_XDEV, NULL);
+    if (!ftsp) {
+        ret = -1;
+        goto finish;
+    }
+
+    while ((curr = fts_read(ftsp))) {
+        switch (curr->fts_info) {
+        case FTS_NS:
+        case FTS_DNR:
+        case FTS_ERR:
+            break;
+
+        case FTS_DC:
+        case FTS_DOT:
+        case FTS_NSOK:
+            break;
+
+        case FTS_D:
+            break;
+
+        case FTS_DP:
+        case FTS_F:
+        case FTS_SL:
+        case FTS_SLNONE:
+        case FTS_DEFAULT:
+            if (remove(curr->fts_accpath) < 0) {
+                ret = -1;
+            }
+            break;
+        }
+    }
+
+finish:
+    if (ftsp) {
+        fts_close(ftsp);
     }
 }
 

@@ -11,6 +11,24 @@
 #include <time.h>
 #include <stdbool.h>
 
+void print_danger(char* message) {
+    printf("\033[0;31m");   // red
+    printf("%s\n", message);
+    printf("\033[0;30m");   // black
+}
+
+void print_warning(char* message) {
+    printf("\033[0;33m");   // yellow
+    printf("%s\n", message);
+    printf("\033[0;30m");
+}
+
+void print_success(char* message, char* additional) {
+    printf("\033[0;32m");   // green
+    printf("%s \"%s\"\n", message, additional);
+    printf("\033[0;30m");
+}
+
 int main(int argc, char const *argv[])
 {
     char* source;
@@ -20,9 +38,7 @@ int main(int argc, char const *argv[])
         printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
         printf("Read the documentation.\n");
 
-        printf("\033[1;31m");
-        printf("Exit error\n");
-
+        print_danger("Exit error");
         exit(1);
     }
 
@@ -36,8 +52,7 @@ int main(int argc, char const *argv[])
     if(!S_ISDIR(source_stat.st_mode)) {
         printf("Source path \"\" doesn't exist or is not a directory.\n");
 
-        printf("\033[1;31m");
-        printf("Exit error\n");
+        print_danger("Exit error");
         exit(1);
     }
 
@@ -51,34 +66,24 @@ int main(int argc, char const *argv[])
         
         switch (choice) {
         case 'y':
-            printf("\033[0;32m");
             create_dir(destination);
-            printf("Directory created at: \"%s\".\n", destination);
-            printf("\033[0;30m");
+            print_success("Directory created at:", destination);
             break;
         case 'Y':
-            printf("\033[0;32m");
             create_dir(destination);
-            printf("Directory created at: \"%s\".\n", destination);
-            printf("\033[0;30m");
+            print_success("Directory created at:", destination);
             break;
         case 'n':
-            printf("\033[0;33m");
-            printf("Abort\n");
-            printf("\033[0;30m");
+            print_warning("Abort");
             exit(1);
             break;
         case 'N':
-            printf("\033[0;33m");
-            printf("Abort\n");
-            printf("\033[0;30m");
+            print_warning("Abort");
             exit(1);
             break;
         
         default:
-            printf("\033[0;33m");
-            printf("Abort\n");
-            printf("\033[0;30m");
+            print_warning("Abort");
             exit(1);
             break;
         }

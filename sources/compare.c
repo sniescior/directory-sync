@@ -21,7 +21,7 @@ char* create_path(char* source, char* temp_path) {
     return new_str;
 }
 
-void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse) {
+void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse, bool recursive) {
 
     DIR *s_directory;
     struct dirent *s_dir;
@@ -48,7 +48,10 @@ void compare(char* source, char* destination, char* temp_path, char* dest_path, 
 
                 // printf("D: %s \t\t<-->\t\t %s\n", temp_path, dest_path);
                 dir_handle(temp_path, dest_path, reverse);
-                compare(temp_path, dest_path, temp_path, dest_path, reverse);
+
+                if(recursive) {
+                    compare(temp_path, dest_path, temp_path, dest_path, reverse, recursive);
+                }
             }
         }
     }

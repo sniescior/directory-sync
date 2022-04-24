@@ -116,12 +116,8 @@ int main(int argc, char * const argv[])
 
     stat(destination, &destination_stat);
 
-    compare(source, destination, "", "", false);
-    compare(destination, source, "", "", true);
-
-    // printf("\n\nSecond loop:\n\n");
-    // Reverse loop to delete all files and directories that are only in (b) directory
-    // compare(destination, source, "", "", true);
+    compare(source, destination, "", "", false, recursive);
+    compare(destination, source, "", "", true, recursive);
 
     return 0;
 }

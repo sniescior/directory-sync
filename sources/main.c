@@ -25,14 +25,39 @@ void print_warning(char* message) {
 
 void print_success(char* message, char* additional) {
     printf("\033[0;32m");   // green
-    printf("%s \"%s\"\n", message, additional);
+
+    if(strcmp(additional, "")) {
+        printf("%s \"%s\"\n", message, additional);
+    } else {
+        printf("%s\n", message);
+    }
     printf("\033[0;30m");
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char * const argv[])
 {
     char* source;
     char* destination;
+
+    bool recursive = false;
+
+    int opt;
+    while((opt = getopt(argc, argv, ":s:d:R")) != -1) {
+        switch (opt) {
+            case 's':
+                source = strdup(optarg);
+                printf("Source directory: \"%s\"\n", source);
+                break;
+            case 'd':
+                destination = strdup(optarg);
+                printf("Destination directory: \"%s\"\n", destination);
+                break;
+            case 'R':
+                printf("Recursion active\n");
+                recursive = true;
+                break;
+        }
+    }
 
     if(argc < 3) {
         printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
@@ -41,9 +66,6 @@ int main(int argc, char const *argv[])
         print_danger("Exit error");
         exit(1);
     }
-
-    source = strdup(argv[1]);
-    destination = strdup(argv[2]);
 
     struct stat source_stat;
     struct stat destination_stat;
@@ -89,7 +111,8 @@ int main(int argc, char const *argv[])
         }
     }
 
-    printf("\nStarting daemon\n");
+    printf("\nAll good. ");
+    print_success("Starting daemon.", "");
 
     stat(destination, &destination_stat);
 

@@ -5,7 +5,7 @@ Program otrzymuje co najmniej dwa argumenty:
 - ścieżkę docelowa.
 
 ```
-./main <source> <destination> [-R]
+./main -s <source> -d <destination> [-R]
 ```  
 Jeżeli któraś ze ścieżek nie jest katalogiem program powraca natychmiast z komunikatem błędu.  
 W przeciwnym wypadku staje się demonem.

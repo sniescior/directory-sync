@@ -3,4 +3,5 @@ katalog-sync
 utilities
 static
 .vscode
+.vscode/*
 notes.txt

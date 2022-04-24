@@ -1,4 +1,5 @@
 #include "../headers/file_handler.h"
+#include "../headers/log_message.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <time.h>
@@ -9,6 +10,10 @@
 #include <stdbool.h>
 
 void duplicate_file(char *source, char* destination) {
+
+    // printf("Copy file from \"%s\" to: \"%s\"", source, destination);
+    log_copy_file(source, destination);
+
     int fd, fd_copy, sz;
     char *c = (char *) calloc(1, sizeof(char)); 
   
@@ -28,7 +33,7 @@ void duplicate_file(char *source, char* destination) {
 }
 
 void delete_file(char* path) {
-    // printf("Remove file from %s\n", path);
+    log_remove_file(path);
     
     int a;
     if(a = remove(path) == 0) {

@@ -42,14 +42,10 @@ void compare(char* source, char* destination, char* temp_path, char* dest_path, 
             if(S_ISREG(s_attr.st_mode)) {
                 // Regular file
                 file_handle(temp_path, dest_path, reverse);
-                // printf("F: %s \t\t<-->\t\t %s\n", temp_path, dest_path);
             } else {
                 // Directory
-
-                // printf("D: %s \t\t<-->\t\t %s\n", temp_path, dest_path);
-                dir_handle(temp_path, dest_path, reverse);
-
                 if(recursive) {
+                    dir_handle(temp_path, dest_path, reverse);
                     compare(temp_path, dest_path, temp_path, dest_path, reverse, recursive);
                 }
             }

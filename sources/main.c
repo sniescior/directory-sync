@@ -41,6 +41,14 @@ int main(int argc, char * const argv[])
 
     bool recursive = false;
 
+    if(argc < 3) {
+        printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
+        printf("Read the documentation.\n");
+
+        print_danger("Exit error");
+        exit(1);
+    }
+
     int opt;
     while((opt = getopt(argc, argv, ":s:d:R")) != -1) {
         switch (opt) {
@@ -53,18 +61,10 @@ int main(int argc, char * const argv[])
                 printf("Destination directory: \"%s\"\n", destination);
                 break;
             case 'R':
-                printf("Recursion active\n");
+                printf("Recursion active.\n");
                 recursive = true;
                 break;
         }
-    }
-
-    if(argc < 3) {
-        printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
-        printf("Read the documentation.\n");
-
-        print_danger("Exit error");
-        exit(1);
     }
 
     struct stat source_stat;

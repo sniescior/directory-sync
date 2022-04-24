@@ -1,4 +1,5 @@
 #include "../headers/directory_handler.h"
+#include "../headers/log_message.h"
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -7,12 +8,18 @@
 #include <stdio.h>
 #include <fts.h>
 #include <errno.h>
+#include <syslog.h>
 
 void create_dir(char *path) {
+    // printf("Create directory at: \"%s\"", path);
+    log_create_directory(path);
     mkdir(path, 0700);
 }
 
 void delete_dir(char* dir) {
+
+    log_remove_directory(dir);
+    // printf("Delete directory from: \"%s\"", dir);
 
     int ret = 0;
     FTS *ftsp = NULL;

@@ -103,7 +103,7 @@ int main(int argc, char * const argv[])
     }
 
     int opt;
-    while((opt = getopt(argc, argv, ":s:d:R")) != -1) {
+    while((opt = getopt(argc, argv, ":s:d:t:R")) != -1) {
         switch (opt) {
             case 's':
                 source = strdup(optarg);
@@ -112,6 +112,10 @@ int main(int argc, char * const argv[])
             case 'd':
                 destination = strdup(optarg);
                 printf("Destination directory: \"%s\"\n", destination);
+                break;
+            case 't':
+                sleep_time = atoi(optarg);
+                printf("Sleep time: %d sekonds\n", sleep_time);
                 break;
             case 'R':
                 printf("Recursion active.\n");

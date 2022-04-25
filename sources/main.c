@@ -34,38 +34,7 @@ void print_success(char* message, char* additional) {
     printf("\033[0;30m");
 }
 
-int main(int argc, char * const argv[])
-{
-    char* source;
-    char* destination;
-
-    bool recursive = false;
-
-    if(argc < 3) {
-        printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
-        printf("Read the documentation.\n");
-
-        print_danger("Exit error");
-        exit(1);
-    }
-
-    int opt;
-    while((opt = getopt(argc, argv, ":s:d:R")) != -1) {
-        switch (opt) {
-            case 's':
-                source = strdup(optarg);
-                printf("Source directory: \"%s\"\n", source);
-                break;
-            case 'd':
-                destination = strdup(optarg);
-                printf("Destination directory: \"%s\"\n", destination);
-                break;
-            case 'R':
-                printf("Recursion active.\n");
-                recursive = true;
-                break;
-        }
-    }
+void user_experience(char* source, char* destination) {
 
     struct stat source_stat;
     struct stat destination_stat;
@@ -113,8 +82,42 @@ int main(int argc, char * const argv[])
 
     printf("\nAll good. ");
     print_success("Starting daemon.", "");
+}
 
-    stat(destination, &destination_stat);
+int main(int argc, char * const argv[])
+{
+    char* source;
+    char* destination;
+
+    bool recursive = false;
+
+    if(argc < 3) {
+        printf("Not enough arguments. Note that the program should receive at least path to source and destination directory.\n");
+        printf("Read the documentation.\n");
+
+        print_danger("Exit error");
+        exit(1);
+    }
+
+    int opt;
+    while((opt = getopt(argc, argv, ":s:d:R")) != -1) {
+        switch (opt) {
+            case 's':
+                source = strdup(optarg);
+                printf("Source directory: \"%s\"\n", source);
+                break;
+            case 'd':
+                destination = strdup(optarg);
+                printf("Destination directory: \"%s\"\n", destination);
+                break;
+            case 'R':
+                printf("Recursion active.\n");
+                recursive = true;
+                break;
+        }
+    }
+
+    user_experience(source, destination);
 
     compare(source, destination, "", "", false, recursive);
     compare(destination, source, "", "", true, recursive);

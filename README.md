@@ -23,9 +23,10 @@ Operacje kopiowania wykonane za pomocą niskopoziomowych operacji read/write.
 - Opcja -R pozwalająca na rekurencyjną synchronizację katalogów (teraz pozycje będące katalogami nie są ignorowane). W szczególności jeżeli demon stwierdzi w katalogu docelowym podkatalog którego brak w katalogu źródłowym usuwa go wraz z zawartością.
 - Opcja -t pozwalająca na zmianę czasu braku aktywności programu (domyślnie - 5 minut). Wartość powinna być podana w sekundach.
 
-### Instalacja
+### Instalacja i uruchomienie
 
 ```
+$ clone git@github.com:sniescior/directory-sync.git
 $ make 
 $ ./main -s katalog -d katalog-sync -t 600 -R
 ```

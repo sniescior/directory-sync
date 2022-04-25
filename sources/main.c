@@ -1,4 +1,5 @@
 #include "../headers/file_handler.h"
+#include "../headers/daemon.h"
 #include "../headers/compare.h"
 #include "../headers/directory_handler.h"
 #include <dirent.h>
@@ -10,6 +11,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdbool.h>
+#include <syslog.h>
 
 void print_danger(char* message) {
     printf("\033[0;31m");   // red
@@ -88,6 +90,7 @@ int main(int argc, char * const argv[])
 {
     char* source;
     char* destination;
+    int sleep_time = 300;   // 5 minutes
 
     bool recursive = false;
 
@@ -118,9 +121,16 @@ int main(int argc, char * const argv[])
     }
 
     user_experience(source, destination);
+    daemon_skeleton();
 
-    compare(source, destination, "", "", false, recursive);
-    compare(destination, source, "", "", true, recursive);
+    int i = 0;
+    while(1) {
+        syslog(LOG_NOTICE, "Starting sync. (id: %d)", i);
+        compare(source, destination, "", "", false, recursive);
+        compare(destination, source, "", "", true, recursive);
+        sleep(sleep_time);
+        i++;
+    }
 
     return 0;
 }

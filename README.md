@@ -22,6 +22,7 @@ Operacje kopiowania wykonane za pomocą niskopoziomowych operacji read/write.
 ### Dodatkowe opcje programu:
 - Opcja -R pozwalająca na rekurencyjną synchronizację katalogów (teraz pozycje będące katalogami nie są ignorowane). W szczególności jeżeli demon stwierdzi w katalogu docelowym podkatalog którego brak w katalogu źródłowym usuwa go wraz z zawartością.
 - Opcja -t pozwalająca na zmianę czasu braku aktywności programu (domyślnie - 5 minut). Wartość powinna być podana w sekundach.
+- W zależności od rozmiaru plików dla małych plików wykonywane jest kopiowanie przy pomocy read/write a w przypadku dużych używany jest bardziej efektywny mechanizm, tj. mmap/write (plik źródłowy zostaje zamapowany w całości w pamięci). Próg dzielący pliki małe od dużych może być przekazywany jako opcjonalny argument (-b). Domyślnie 10MB.
 
 ### Instalacja i uruchomienie
 

@@ -91,6 +91,7 @@ int main(int argc, char * const argv[])
     char* source;
     char* destination;
     int sleep_time = 300;   // 5 minutes
+    long int size = 5;   // 10MB
 
     bool recursive = false;
 
@@ -103,7 +104,7 @@ int main(int argc, char * const argv[])
     }
 
     int opt;
-    while((opt = getopt(argc, argv, ":s:d:t:R")) != -1) {
+    while((opt = getopt(argc, argv, ":s:d:t:b:R")) != -1) {
         switch (opt) {
             case 's':
                 source = strdup(optarg);
@@ -116,6 +117,10 @@ int main(int argc, char * const argv[])
             case 't':
                 sleep_time = atoi(optarg);
                 printf("Sleep time: %d sekonds\n", sleep_time);
+                break;
+            case 'b':
+                sleep_time = atoi(optarg);
+                printf("Huge file size: %ld bytes\n", size);
                 break;
             case 'R':
                 printf("Recursion active.\n");
@@ -130,8 +135,8 @@ int main(int argc, char * const argv[])
     int i = 0;
     while(1) {
         syslog(LOG_NOTICE, "Starting sync. (id: %d)", i);
-        compare(source, destination, "", "", false, recursive);
-        compare(destination, source, "", "", true, recursive);
+        compare(source, destination, "", "", false, recursive, size);
+        compare(destination, source, "", "", true, recursive, size);
         sleep(sleep_time);
         i++;
     }

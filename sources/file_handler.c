@@ -88,14 +88,14 @@ void delete_file(char* path) {
     }
 }
 
-void file_handle(char* source, char* destination, bool reverse) {
+void file_handle(char* source, char* destination, bool reverse, long int size) {
     int fd;
     fd = open(destination, O_RDONLY);
 
     if(fd < 0) {
         // File only exists in source path
         if(!reverse) {
-            if(get_size(source) > 10000000) {
+            if(get_size(source) > size) {
                 duplicate_huge_file(source, destination);
             } else {
                 duplicate_file(source, destination);
@@ -117,7 +117,7 @@ void file_handle(char* source, char* destination, bool reverse) {
     destination_date = strdup(ctime(&d_attr.st_mtime));
 
     if(strcmp(source_date, destination_date) != 0) {
-        if(get_size(source) > 10000000) {
+        if(get_size(source) > size) {
             duplicate_huge_file(source, destination);
         } else {
             duplicate_file(source, destination);

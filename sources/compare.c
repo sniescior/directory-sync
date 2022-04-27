@@ -21,7 +21,7 @@ char* create_path(char* source, char* temp_path) {
     return new_str;
 }
 
-void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse, bool recursive) {
+void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse, bool recursive, long int size) {
 
     DIR *s_directory;
     struct dirent *s_dir;
@@ -41,12 +41,12 @@ void compare(char* source, char* destination, char* temp_path, char* dest_path, 
 
             if(S_ISREG(s_attr.st_mode)) {
                 // Regular file
-                file_handle(temp_path, dest_path, reverse);
+                file_handle(temp_path, dest_path, reverse, size);
             } else {
                 // Directory
                 if(recursive) {
                     dir_handle(temp_path, dest_path, reverse);
-                    compare(temp_path, dest_path, temp_path, dest_path, reverse, recursive);
+                    compare(temp_path, dest_path, temp_path, dest_path, reverse, recursive, size);
                 }
             }
         }

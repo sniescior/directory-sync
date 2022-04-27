@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse, bool recursive);
+void compare(char* source, char* destination, char* temp_path, char* dest_path, bool reverse, bool recursive, long int size);
 
 #endif

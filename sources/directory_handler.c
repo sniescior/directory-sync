@@ -11,14 +11,16 @@
 #include <syslog.h>
 
 void create_dir(char *path) {
+
+    int error_code = 0;
     // printf("Create directory at: \"%s\"", path);
-    log_create_directory(path);
-    mkdir(path, 0700);
+    error_code = mkdir(path, 0700);
+    log_create_directory(path, error_code);
 }
 
 void delete_dir(char* dir) {
 
-    log_remove_directory(dir);
+    int error_code = 0;
     // printf("Delete directory from: \"%s\"", dir);
 
     int ret = 0;
@@ -29,8 +31,9 @@ void delete_dir(char* dir) {
 
     ftsp = fts_open(files, FTS_NOCHDIR | FTS_PHYSICAL | FTS_XDEV, NULL);
     if (!ftsp) {
-        ret = -1;
-        goto finish;
+        error_code = -1;
+        log_remove_directory(dir, error_code);
+        return;
     }
 
     while ((curr = fts_read(ftsp))) {
@@ -54,16 +57,21 @@ void delete_dir(char* dir) {
         case FTS_SLNONE:
         case FTS_DEFAULT:
             if (remove(curr->fts_accpath) < 0) {
-                ret = -1;
+                error_code = -2;
+                log_remove_directory(dir, error_code);
+                return;
             }
             break;
         }
     }
 
 finish:
-    if (ftsp) {
+    if (ftsp) {    
         fts_close(ftsp);
     }
+
+    log_remove_directory(dir, error_code);
+    return;
 }
 
 void dir_handle(char* source, char* destination, bool reverse) {

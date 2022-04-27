@@ -12,34 +12,50 @@
 void duplicate_file(char *source, char* destination) {
 
     // printf("Copy file from \"%s\" to: \"%s\"", source, destination);
-    log_copy_file(source, destination);
+    int error_code = 0;
 
     int fd, fd_copy, sz;
     char *c = (char *) calloc(1, sizeof(char)); 
   
     fd = open(source, O_RDONLY);
-    if (fd < 0) { perror("r1"); return; }
+    if (fd < 0) { 
+        error_code = -1;
+        log_copy_file(source, destination, error_code);
+        return; 
+    }
 
     fd_copy = open(
         destination,
         O_WRONLY | O_CREAT | O_TRUNC, 
         0644
     );
-    if (fd_copy < 0) { perror("r2"); return; }
+    
+    if (fd_copy < 0) { 
+        error_code = -2;
+        log_copy_file(source, destination, error_code);
+        return; 
+    }
 
     while((sz = read(fd, c, 1)) > 0) { 
         write(fd_copy, c, 1);
     }
+
+    log_copy_file(source, destination, error_code);
+    return;
 }
 
 void delete_file(char* path) {
-    log_remove_file(path);
+    int error_code = 0;
+    log_remove_file(path, error_code);
     
     int a;
     if(a = remove(path) == 0) {
-        // printf("\t\t ^ deleted successfully (%d)\n", a);
+        log_remove_file(path, error_code);
+        return;
     } else {
-        // printf("\t\t ^ not removed (%d)\n", a);
+        error_code = -1;
+        log_remove_file(path, error_code);
+        return;
     }
 }
 

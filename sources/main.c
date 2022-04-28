@@ -91,7 +91,7 @@ int main(int argc, char * const argv[])
     char* source;
     char* destination;
     int sleep_time = 300;   // 5 minutes
-    long int size = 5;   // 10MB
+    long int size = 10000000;   // 10MB
 
     bool recursive = false;
 
@@ -116,11 +116,11 @@ int main(int argc, char * const argv[])
                 break;
             case 't':
                 sleep_time = atoi(optarg);
-                printf("Sleep time: %d sekonds\n", sleep_time);
+                printf("Sleep time: %d sekonds.\n", sleep_time);
                 break;
             case 'b':
-                sleep_time = atoi(optarg);
-                printf("Huge file size: %ld bytes\n", size);
+                size = atoi(optarg);
+                printf("Huge file size: %ld bytes.\n", size);
                 break;
             case 'R':
                 printf("Recursion active.\n");

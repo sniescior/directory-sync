@@ -24,16 +24,30 @@ long int get_size(char *path) {
 }
 
 void duplicate_huge_file(char *source, char* destination) {
+    int error_code = 0;
+
     int source_file, destination_file;
     char *source_temp, *destination_temp ;
     struct stat source_stat;
     size_t size;
 
     source_file = open(source, O_RDONLY);
+    if(!source_file) {
+        error_code = 1;
+        log_copy_file(source, destination, error_code);
+        return;
+    }
+    
     size = lseek(source_file, 0, SEEK_END);
     source_temp = mmap(NULL, size, PROT_READ, MAP_PRIVATE, source_file, 0);
 
     destination_file = open(destination, O_RDWR | O_CREAT, 0666);
+    if(!destination_file) {
+        error_code = 2;
+        log_copy_file(source, destination, error_code);
+        return;
+    }
+
     ftruncate(destination_file, size);
     destination_temp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, destination_file, 0);
 
@@ -43,6 +57,8 @@ void duplicate_huge_file(char *source, char* destination) {
 
     close(source_file);
     close(destination_file);
+
+    log_copy_file(source, destination, error_code);
 }
 
 void duplicate_file(char *source, char* destination) {

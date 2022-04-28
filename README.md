@@ -1,14 +1,28 @@
 # directory-sync
 ## Demon synchronizujący dwa podkatalogi
 Program otrzymuje co najmniej dwa argumenty:
-- ścieżkę źródłową
-- ścieżkę docelowa.
-
+- ścieżkę źródłową,
+- ścieżkę docelowa. 
 ```
-./main -s <source> -d <destination> [-R] [-t sleep_time]
+$ ./main -s <source> -d <destination> [-R]
 ```  
-Jeżeli któraś ze ścieżek nie jest katalogiem program powraca natychmiast z komunikatem błędu.  
+Dodatkowe (opcjonalne) parametry:
+- rozmiar większych plików (wartość powinna być podana w bajtach)
+```
+$ ./main -s <source> -d <destination> -b 10000000
+```
+- czas pomiędzy kolejnymi wybudzeniami demona (wartość powinna być w sekundach)
+```
+$ ./main -s <source> -d <destination> -t 600
+```
+- rekursywne przeglądanie katalogów
+```
+$ ./main -s <source> -d <destination> -R
+```
+Jeżeli któraś z podanych ścieżek nie jest katalogiem program powraca natychmiast z komunikatem błędu.  
 W przeciwnym wypadku staje się demonem.
+
+Więcej informacji o dodatkowych opcjach programu można znaleźć [niżej](#dodatkowe-opcje-programu).
 
 ### Demon wykonuje następujące czynności:
 - śpi przez piec minut (czas spania można zmieniać przy pomocy dodatkowego opcjonalnego argumentu), po czym po obudzeniu się porównuje katalog źródłowy z katalogiem docelowym. Pozycje, które nie są zwykłymi plikami są ignorowane (np. katalogi i dowiązania symboliczne).

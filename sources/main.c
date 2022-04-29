@@ -12,6 +12,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include <syslog.h>
+#include <signal.h>
 
 void print_danger(char* message) {
     printf("\033[0;31m");   // red
@@ -86,6 +87,10 @@ void user_experience(char* source, char* destination) {
     print_success("Starting daemon.", "");
 }
 
+void handler() {
+    syslog(LOG_NOTICE, "SIGUSR1 sent.");
+}
+
 int main(int argc, char * const argv[])
 {
     char* source;
@@ -134,6 +139,7 @@ int main(int argc, char * const argv[])
 
     int i = 0;
     while(1) {
+        signal(SIGUSR1, handler);
         syslog(LOG_NOTICE, "Starting sync. (id: %d)", i);
         compare(source, destination, "", "", false, recursive, size);
         compare(destination, source, "", "", true, recursive, size);

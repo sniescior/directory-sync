@@ -43,5 +43,6 @@ Operacje kopiowania wykonane za pomocą niskopoziomowych operacji read/write.
 ```
 $ clone git@github.com:sniescior/directory-sync.git
 $ make 
+$ sudo make install
 $ ./main -s katalog -d katalog-sync -t 600 -R
 ```

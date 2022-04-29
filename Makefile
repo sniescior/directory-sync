@@ -1,7 +1,13 @@
 SOURCES := $(wildcard sources/*.c)
 
-main:
-	gcc -o main $(SOURCES) -I headers
+all:
+	gcc -o dir-sync $(SOURCES) -I headers
+
+install: all
+	cp dir-sync /usr/bin
+	
+uninstall:
+	rm /usr/bin/dir-sync
 
 clean:
-	rm main
+	rm dir-sync

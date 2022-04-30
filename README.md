@@ -4,20 +4,20 @@ Program otrzymuje co najmniej dwa argumenty:
 - ścieżkę źródłową,
 - ścieżkę docelowa. 
 ```
-$ ./main -s <source> -d <destination> [-R]
+$ dir-sync -s <source> -d <destination> [-R]
 ```  
 Dodatkowe (opcjonalne) parametry:
 - rozmiar większych plików (wartość powinna być podana w bajtach)
 ```
-$ ./main -s <source> -d <destination> -b 10000000
+$ dir-sync -s <source> -d <destination> -b 10000000
 ```
 - czas pomiędzy kolejnymi wybudzeniami demona (wartość powinna być w sekundach)
 ```
-$ ./main -s <source> -d <destination> -t 600
+$ dir-sync -s <source> -d <destination> -t 600
 ```
 - rekursywne przeglądanie katalogów
 ```
-$ ./main -s <source> -d <destination> -R
+$ dir-sync -s <source> -d <destination> -R
 ```
 Jeżeli któraś z podanych ścieżek nie jest katalogiem program powraca natychmiast z komunikatem błędu.  
 W przeciwnym wypadku staje się demonem.
@@ -44,5 +44,5 @@ Operacje kopiowania wykonane za pomocą niskopoziomowych operacji read/write.
 $ clone git@github.com:sniescior/directory-sync.git
 $ make 
 $ sudo make install
-$ ./main -s katalog -d katalog-sync -t 600 -R
+$ dir-sync -s katalog -d katalog-sync -t 600 -R
 ```
